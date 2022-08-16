@@ -17,6 +17,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    //글업데이트
     @Transactional
     public Long update(Long id, PostRequestDto requestDto) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("아이디가 존재하지 않습니다."));
@@ -24,6 +25,7 @@ public class PostService {
         return post.getId();
     }
 
+    //비밀번호 확인
     public boolean chkPassword(Long id, PasswordDto requestDto) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("아이디가 존재하지 않습니다."));
         return post.getPassword().equals(requestDto.getPassword());
