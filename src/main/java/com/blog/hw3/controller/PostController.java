@@ -14,14 +14,12 @@ import java.util.List;
 @RestController
 public class PostController {
 
-    private final PostRepository postRepository;
     private final PostService postService;
 
     // 글 작성
     @PostMapping("/api/posts")
     public Post createPost(@RequestBody PostRequestDto requestDto) {
-        Post post = new Post(requestDto);
-        return postRepository.save(post);
+        return postService.create(requestDto);
     }
 
     // 비밀번호 확인
@@ -39,19 +37,19 @@ public class PostController {
     // 글 삭제
     @DeleteMapping("/api/posts/{id}")
     public long deletePost(@PathVariable Long id) {
-        postRepository.deleteById(id);
+        postService.delete(id);
         return id;
     }
 
     // 전체 조회
     @GetMapping("/api/posts")
     public List<Post> getPosts() {
-        return postRepository.findAllByOrderByModifiedAtDesc();
+        return postService.getPosts();
     }
 
     // 글 조회
     @GetMapping("/api/posts/{id}")
     public Post getDetailPosts(@PathVariable Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new NullPointerException("해당 글이 존재하지 않습니다."));
+        return postService.getDetailPost(id);
     }
 }
