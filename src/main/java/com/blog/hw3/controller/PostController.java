@@ -1,5 +1,6 @@
 package com.blog.hw3.controller;
 
+import com.blog.hw3.dto.PasswordDto;
 import com.blog.hw3.dto.PostRequestDto;
 import com.blog.hw3.entity.Post;
 import com.blog.hw3.repository.PostRepository;
@@ -24,21 +25,19 @@ public class PostController {
     }
 
     // 비밀번호 확인
-    @PostMapping("/api/auth/${id}")
-    public boolean isValidPassword(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
-        // postService.chkPassword(id, requestDto)
-        return true;
+    @PostMapping("/api/auth/{id}")
+    public boolean isValidPassword(@PathVariable Long id, @RequestBody PasswordDto requestDto) {
+        return postService.chkPassword(id, requestDto);
     }
 
     // 글 수정
-    @PatchMapping("/api/posts/${id}")
-    public boolean updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
-        // postService.update(id, requestDto);
-        return true;
+    @PutMapping("/api/posts/{id}")
+    public long updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+        return postService.update(id, requestDto);
     }
 
     // 글 삭제
-    @DeleteMapping("/api/posts/${id}")
+    @DeleteMapping("/api/posts/{id}")
     public long deletePost(@PathVariable Long id) {
         postRepository.deleteById(id);
         return id;
@@ -51,7 +50,7 @@ public class PostController {
     }
 
     // 글 조회
-    @GetMapping("/api/posts/${id}")
+    @GetMapping("/api/posts/{id}")
     public Post getDetailPosts(@PathVariable Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NullPointerException("해당 글이 존재하지 않습니다."));
     }
