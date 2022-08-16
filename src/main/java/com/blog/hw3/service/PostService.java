@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Setter
@@ -23,6 +24,25 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("아이디가 존재하지 않습니다."));
         post.update(requestDto);
         return post.getId();
+    }
+
+    @Transactional
+    public Post create(PostRequestDto requestDto) {
+        Post post = new Post(requestDto);
+        return postRepository.save(post);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    public Post getDetailPost(long id) {
+        return postRepository.findById(id).orElseThrow(() -> new NullPointerException("해당 글이 존재하지 않습니다."));
+    }
+
+    public List<Post> getPosts() {
+        return postRepository.findAllByOrderByModifiedAtDesc();
     }
 
     //비밀번호 확인
