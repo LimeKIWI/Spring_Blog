@@ -28,13 +28,6 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String password;    // 비밀번호
 
-    public Post(String title, String author, String content, String password) {
-        this.title  = title;
-        this.author = author;
-        this.content = content;
-        this.password = password;
-    }
-
     public Post(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.author = requestDto.getAuthor();
