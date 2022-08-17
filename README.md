@@ -25,9 +25,17 @@
     - 글이 삭제되게 하기
 
 * api 명세서
+>|description|method|uri|request|response|
+|-|-|-|-|-|
+|전체조회|GET|/api/posts|-|[ { "id" : "1", "title" : "title1", "author" : "author1", "content" : "content1" } ]
+|테스트1|테스트2|테스트3|
+|테스트1|테스트2|테스트3|
+
+
 
 * usecase
-%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%22%20style%3D%22rounded%3D0%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3BlabelBackgroundColor%3Dnone%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%2220%22%20y%3D%2250%22%20width%3D%22910%22%20height%3D%22760%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E
+![](https://velog.velcdn.com/images/lries7897/post/b9e01b13-fdd8-4496-81b4-f989555b6c46/image.png)
+
 
 ***
 
