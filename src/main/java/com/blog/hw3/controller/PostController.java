@@ -1,8 +1,9 @@
 package com.blog.hw3.controller;
 
+import com.blog.hw3.dto.DetailPostDto;
 import com.blog.hw3.dto.PasswordDto;
+import com.blog.hw3.dto.PostListDto;
 import com.blog.hw3.dto.PostRequestDto;
-import com.blog.hw3.entity.Post;
 import com.blog.hw3.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class PostController {
 
     // 글 작성
     @PostMapping("/api/posts")
-    public Post createPost(@RequestBody PostRequestDto requestDto) {
+    public DetailPostDto createPost(@RequestBody PostRequestDto requestDto) {
         return postService.create(requestDto);
     }
 
@@ -29,7 +30,7 @@ public class PostController {
 
     // 글 수정
     @PutMapping("/api/posts/{id}")
-    public Post updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    public DetailPostDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         return postService.update(id, requestDto);
     }
 
@@ -42,13 +43,13 @@ public class PostController {
 
     // 전체 조회
     @GetMapping("/api/posts")
-    public List<Post> getPosts() {
+    public List<PostListDto> getPosts() {
         return postService.getPosts();
     }
 
     // 글 조회
     @GetMapping("/api/posts/{id}")
-    public Post getDetailPosts(@PathVariable Long id) {
+    public DetailPostDto getDetailPosts(@PathVariable Long id) {
         return postService.getDetailPost(id);
     }
 }
