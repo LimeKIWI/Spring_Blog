@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter                         // getter함수 생성생략
 public class Post extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;            // 게시물 고유번호
 
@@ -25,21 +25,19 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;     // 게시물 내용
 
-    @Column(nullable = false)
-    private String password;    // 비밀번호
 
+    // 생성
     public Post(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.author = requestDto.getAuthor();
         this.content = requestDto.getContent();
-        this.password = requestDto.getPassword();
     }
 
+    // 업데이트
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.author = requestDto.getAuthor();
         this.content = requestDto.getContent();
-        this.password = requestDto.getPassword();
     }
 
 }
