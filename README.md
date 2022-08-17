@@ -27,7 +27,6 @@
 * api 명세서
 
 * usecase
-![](https://velog.velcdn.com/images/lries7897/post/3224b6c6-6333-4237-b331-05bdca1d5517/image.png)
 
 ***
 
