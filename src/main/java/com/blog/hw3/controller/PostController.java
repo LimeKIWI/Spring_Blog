@@ -3,7 +3,6 @@ package com.blog.hw3.controller;
 import com.blog.hw3.dto.PasswordDto;
 import com.blog.hw3.dto.PostRequestDto;
 import com.blog.hw3.entity.Post;
-import com.blog.hw3.repository.PostRepository;
 import com.blog.hw3.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +29,13 @@ public class PostController {
 
     // 글 수정
     @PutMapping("/api/posts/{id}")
-    public long updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    public Post updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         return postService.update(id, requestDto);
     }
 
     // 글 삭제
     @DeleteMapping("/api/posts/{id}")
-    public long deletePost(@PathVariable Long id) {
+    public Long deletePost(@PathVariable Long id) {
         postService.delete(id);
         return id;
     }

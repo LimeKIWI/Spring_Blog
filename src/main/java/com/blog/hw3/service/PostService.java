@@ -20,35 +20,40 @@ public class PostService {
 
     //글업데이트
     @Transactional
-    public Long update(Long id, PostRequestDto requestDto) {
+    public Post update(Long id, PostRequestDto requestDto) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("아이디가 존재하지 않습니다."));
         post.update(requestDto);
-        return post.getId();
+        return post;
     }
 
+    //글저장
     @Transactional
     public Post create(PostRequestDto requestDto) {
         Post post = new Post(requestDto);
-        return postRepository.save(post);
+        postRepository.save(post);
+        return post;
     }
 
+    //글삭제
     @Transactional
     public void delete(Long id) {
         postRepository.deleteById(id);
     }
 
+    //글상세보기
     public Post getDetailPost(long id) {
         return postRepository.findById(id).orElseThrow(() -> new NullPointerException("해당 글이 존재하지 않습니다."));
     }
 
     public List<Post> getPosts() {
-        return postRepository.findAllByOrderByModifiedAtDesc();
+        return postRepository.findAllByOrderByCreateAtDesc();
     }
 
     //비밀번호 확인
-    public boolean chkPassword(Long id, PasswordDto requestDto) {
+    public Boolean chkPassword(Long id, PasswordDto requestDto) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("아이디가 존재하지 않습니다."));
         return post.getPassword().equals(requestDto.getPassword());
     }
+
 
 }
