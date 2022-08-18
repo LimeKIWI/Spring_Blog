@@ -26,10 +26,13 @@
 
 * api 명세서
 >|description|method|uri|request|response|
-|-|-|-|-|-|
-|전체조회|GET|/api/posts|-|[ { "id" : "1", "title" : "title1", "author" : "author1", "content" : "content1" } ]
-|테스트1|테스트2|테스트3|
-|테스트1|테스트2|테스트3|
+|:-:|:-:|:-:|:-:|:-:|
+|전체조회|GET|/api/posts|-|[ {"id": 2, "title": "제목2", "author": "작성자2", "createAt": "2022-08-16T00:10:00", "modifiedAt": "2022-08-16T00:10:00" }, {"id": 1, "title": "제목1", "author": "작성자1", "createAt": "2022-08-16T00:00:00", "modifiedAt": "2022-08-16T00:00:00" } ]
+|글작성|POST|/api/posts|{ "title": "제목1", "author": "작성자1", "content": "내용1", "password": "비밀번호1"}|{"id": 1, "title": "제목1", "author": "작성자1", "content": "내용1", "createAt": "2022-08-16T00:00:00", "modifiedAt": "2022-08-16T00:00:20" }|
+|글조회|GET|/api/posts/{id}|-|{"id": 1, "title": "제목1", "author": "작성자1", "content": "내용1", "createAt": "2022-08-16T00:00:00", "modifiedAt": "2022-08-16T00:00:20" }|{"id": 1, "title": "제목1", "author": "작성자1", "content": "내용1", "createAt": "2022-08-16T00:00:00", "modifiedAt": "2022-08-16T00:00:20" }|
+|비밀번호확인|POST|/api/auth/{id}|{"password": "비밀번호1"}|true|
+|글수정|POST|/api/posts/{id}|{ "title": "제목1", "author": "작성자1", "content": "내용1", "password": "비밀번호1"}|{"id": 1, "title": "제목1", "author": "작성자1", "content": "내용1", "createAt": "2022-08-16T00:00:00", "modifiedAt": "2022-08-16T00:00:20" }|
+|글삭제|DELETE|/api/posts/{id}|-|1|
 
 
 
