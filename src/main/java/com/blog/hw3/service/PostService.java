@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Setter
 @RequiredArgsConstructor
 public class PostService {
 
