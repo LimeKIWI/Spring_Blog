@@ -12,12 +12,12 @@ import javax.persistence.*;
 @Getter
 public class Comment extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;        // 댓글 고유 id
 
     @ManyToOne
-    @Column (name = "POST_ID", nullable = false)
+    @JoinColumn (nullable = false)
     private Post post;    // 댓글이 달린 게시글 id
 
     @Column (nullable = false)
@@ -25,12 +25,6 @@ public class Comment extends Timestamped {
 
     @Column (nullable = false)
     private String content;
-
-    public Comment (CommentDto commentDto) {
-        this.post = commentDto.getPost();
-        this.author = commentDto.getAuthor();
-        this.content = commentDto.getContent();
-    }
 
     public void update (CommentDto commentDto) {
         this.post = commentDto.getPost();

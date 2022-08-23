@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter                         // getter함수 생성생략
 public class Post extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;            // 게시물 고유번호
 
