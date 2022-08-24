@@ -19,19 +19,19 @@ public class PostController {
 
     // 글 작성
     @PostMapping("/api/auth/posts")
-    public DetailPostDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException {
+    public DetailPostDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailImp userDetail)  {
         return postService.create(requestDto, userDetail.getUsername());
     }
 
     // 글 수정
     @PutMapping("/api/auth/posts/{id}")
-    public DetailPostDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException {
+    public DetailPostDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailImp userDetail)  {
         return postService.update(id, requestDto, userDetail.getUsername());
     }
 
     // 글 삭제
     @DeleteMapping("/api/auth/posts/{id}")
-    public Long deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException {
+    public Long deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailImp userDetail) {
         postService.delete(id, userDetail.getUsername());
         return id;
     }

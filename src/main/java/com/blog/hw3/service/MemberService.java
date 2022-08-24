@@ -28,17 +28,17 @@ public class MemberService {
     private final JwtProvider jwtProvider;
 
     // 회원가입
-    public String registerUser(SignupRequestDto signupRequestDto) throws IllegalAccessException {
+    public String registerUser(SignupRequestDto signupRequestDto) {
         String nickName = signupRequestDto.getNickName();
         String password = signupRequestDto.getPassword();
         String passwordConfirm = signupRequestDto.getPasswordConfirm();
 
         Optional<Member> found = memberRepository.findByNickName(nickName);
         if(found.isPresent()) {
-            throw new IllegalAccessException("중복 닉네임 확인!");
+            throw new IllegalArgumentException("중복 닉네임 확인!");
         }
         if(!password.equals(passwordConfirm)) {
-            throw new IllegalAccessException("비밀번호가 서로 다릅니다!");
+            throw new IllegalArgumentException("비밀번호가 서로 다릅니다!");
         }
         password = passwordEncoder.encode(signupRequestDto.getPassword());
         SigninRequestDto dto = SigninRequestDto.builder()

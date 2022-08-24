@@ -24,22 +24,22 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
-    
 
-    private Member getMember(String nickName) throws IllegalAccessException {
+
+    private Member getMember(String nickName) {
         Optional<Member> mem = memberRepository.findByNickName(nickName);
         if(!mem.isPresent())
-            throw new IllegalAccessException("사용자 정보가 없습니다!");
+            throw new IllegalArgumentException("사용자 정보가 없습니다!");
         return mem.get();
     }
 
     //글업데이트
     @Transactional
-    public DetailPostDto update(Long id, PostRequestDto requestDto, String nickName) throws IllegalAccessException {
+    public DetailPostDto update(Long id, PostRequestDto requestDto, String nickName) {
         Member member = getMember(nickName);
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalAccessException("해당 글이 존재하지 않습니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 글이 존재하지 않습니다."));
         if(!post.getMember().getNickName().equals(member.getNickName()))
-            throw new IllegalAccessException("작성자만 수정할 수 있습니다.");
+            throw new IllegalArgumentException("작성자만 수정할 수 있습니다.");
         post.update(requestDto);
         return new DetailPostDto(post);
 
@@ -47,7 +47,7 @@ public class PostService {
 
     //글저장
     @Transactional
-    public DetailPostDto create(PostRequestDto requestDto, String nickName) throws IllegalAccessException {
+    public DetailPostDto create(PostRequestDto requestDto, String nickName)  {
         Member member = getMember(nickName);
         Post post = new Post(requestDto, member);
         postRepository.save(post);
@@ -56,11 +56,11 @@ public class PostService {
 
     //글삭제
     @Transactional
-    public void delete(Long id, String nickName) throws IllegalAccessException {
+    public void delete(Long id, String nickName)  {
         Member member = getMember(nickName);
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalAccessException("해당 글이 존재하지 않습니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 글이 존재하지 않습니다."));
         if(!post.getMember().getNickName().equals(member.getNickName()))
-            throw new IllegalAccessException("작성자만 삭제할 수 있습니다.");
+            throw new IllegalArgumentException("작성자만 삭제할 수 있습니다.");
         postRepository.deleteById(id);
         List<Comment> list = commentRepository.findAllByPostId(id);
         for(Comment comment : list) {
@@ -70,7 +70,7 @@ public class PostService {
 
     //글상세보기
     public DetailPostDto getDetailPost(long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("해당 글이 존재하지 않습니다."));
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 글이 존재하지 않습니다."));
         return new DetailPostDto(post);
     }
 

@@ -19,7 +19,7 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("api/member/signup")
-    public String signup(@RequestBody @Valid SignupRequestDto signupRequestDto) throws IllegalAccessException {
+    public String signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         return memberService.registerUser(signupRequestDto);
     }
 
@@ -28,5 +28,4 @@ public class MemberController {
     public String login(@RequestBody SigninRequestDto signinRequestDto, HttpServletResponse response) {
         return memberService.login(signinRequestDto, response);
     }
-
 }

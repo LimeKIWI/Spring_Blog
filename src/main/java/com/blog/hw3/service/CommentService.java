@@ -23,20 +23,20 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
 
-    private Member getMember(String nickName) throws IllegalAccessException {
+    private Member getMember(String nickName) {
         Optional<Member> mem = memberRepository.findByNickName(nickName);
         if(!mem.isPresent())
-            throw new IllegalAccessException("사용자 정보가 없습니다!");
+            throw new IllegalArgumentException("사용자 정보가 없습니다!");
         return mem.get();
     }
 
-    private void extracted(CommentDto commentDto) throws IllegalAccessException {
-        postRepository.findById(commentDto.getPostId()).orElseThrow(() -> new IllegalAccessException("해당 글이 존재하지 않습니다."));
+    private void extracted(CommentDto commentDto) {
+        postRepository.findById(commentDto.getPostId()).orElseThrow(() -> new IllegalArgumentException("해당 글이 존재하지 않습니다."));
     }
 
     // 댓글 생성
     @Transactional
-    public CommentResponseDto createComment(CommentDto commentDto, String nickName) throws IllegalAccessException {
+    public CommentResponseDto createComment(CommentDto commentDto, String nickName)  {
         Member member = getMember(nickName);
         extracted(commentDto);
         Comment comment = new Comment(commentDto, member);
@@ -52,12 +52,12 @@ public class CommentService {
 
     // 댓글 수정
     @Transactional
-    public CommentResponseDto updateComment(Long id, CommentDto commentDto, String nickName) throws IllegalAccessException {
+    public CommentResponseDto updateComment(Long id, CommentDto commentDto, String nickName) {
         Member member = getMember(nickName);
         extracted(commentDto);
         Comment comment = commentRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
         if(!member.getNickName().equals(comment.getMember().getNickName()))
-            throw new IllegalAccessException("댓글 작성자가 다릅니다.");
+            throw new IllegalArgumentException("댓글 작성자가 다릅니다.");
         comment.update(commentDto);
         return CommentResponseDto.builder()
                 .id(comment.getId())
@@ -70,11 +70,11 @@ public class CommentService {
 
 
     // 댓글 삭제
-    public Long deleteComment(Long id, String nickName) throws IllegalAccessException {
+    public Long deleteComment(Long id, String nickName)  {
         Member member = getMember(nickName);
         Comment comment = commentRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
         if(!member.getNickName().equals(comment.getMember().getNickName()))
-            throw new IllegalAccessException("댓글 작성자가 다릅니다.");
+            throw new IllegalArgumentException("댓글 작성자가 다릅니다.");
         commentRepository.deleteById(id);
         return id;
     }
