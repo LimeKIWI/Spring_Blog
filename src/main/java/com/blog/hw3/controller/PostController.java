@@ -17,7 +17,7 @@ public class PostController {
     private final PostService postService;
 
     // 글 작성
-    @PostMapping("/api/posts")
+    @PostMapping("/api/auth/posts")
     public DetailPostDto createPost(@RequestBody PostRequestDto requestDto) {
         return postService.create(requestDto);
     }
@@ -29,13 +29,13 @@ public class PostController {
     }
 
     // 글 수정
-    @PutMapping("/api/posts/{id}")
+    @PutMapping("/api/auth/posts/{id}")
     public DetailPostDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         return postService.update(id, requestDto);
     }
 
     // 글 삭제
-    @DeleteMapping("/api/posts/{id}")
+    @DeleteMapping("/api/auth/posts/{id}")
     public Long deletePost(@PathVariable Long id) {
         postService.delete(id);
         return id;

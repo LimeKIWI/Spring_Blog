@@ -1,6 +1,6 @@
 package com.blog.hw3.security;
 
-import com.blog.hw3.entity.Users;
+import com.blog.hw3.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,9 +9,9 @@ import java.util.Collections;
 
 public class UserDetailImp implements UserDetails {
 
-    private final Users user;
+    private final Member user;
 
-    public UserDetailImp(Users user) {
+    public UserDetailImp(Member user) {
         this.user = user;
     }
 
@@ -20,7 +20,7 @@ public class UserDetailImp implements UserDetails {
         return Collections.emptyList();
     }
 
-    public Users getUser() {
+    public Member getUser() {
         return user;
     }
 
@@ -31,7 +31,7 @@ public class UserDetailImp implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getNickName();
     }
 
     @Override
