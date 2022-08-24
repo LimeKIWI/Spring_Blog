@@ -1,18 +1,18 @@
-package com.blog.hw3.dto;
+package com.blog.hw3.dto.comment;
+
 
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+// 댓글 목록만을 가져오는 DTO
 @Getter
 @Builder
-// 글목록가져오기위한 Dto
-public class PostListDto {
+public class CommentListDto {
     private Long id;
-    private String title;
     private String author;
+    private String content;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
-
 }

@@ -1,29 +1,36 @@
 package com.blog.hw3.service;
 
-import com.blog.hw3.dto.DetailPostDto;
-import com.blog.hw3.dto.PasswordDto;
-import com.blog.hw3.dto.PostListDto;
-import com.blog.hw3.dto.PostRequestDto;
+import com.blog.hw3.dto.post.DetailPostDto;
+import com.blog.hw3.dto.post.PostListDto;
+import com.blog.hw3.dto.post.PostRequestDto;
+import com.blog.hw3.entity.Member;
 import com.blog.hw3.entity.Post;
+import com.blog.hw3.repository.MemberRepository;
 import com.blog.hw3.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
     //글업데이트
     @Transactional
-    public DetailPostDto update(Long id, PostRequestDto requestDto) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("아이디가 존재하지 않습니다."));
+    public DetailPostDto update(Long id, PostRequestDto requestDto, String nickName) throws IllegalAccessException {
+        Optional<Member> mem = memberRepository.findByNickName(nickName);
+        if(!mem.isPresent())
+            throw new IllegalAccessException("사용자 정보가 없습니다!");
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalAccessException("해당 글이 존재하지 않습니다."));
+        if(!post.getMember().getNickName().equals(mem.get().getNickName()))
+            throw new IllegalAccessException("작성자만 수정할 수 있습니다.");
         post.update(requestDto);
         return new DetailPostDto(post);
 
@@ -31,15 +38,24 @@ public class PostService {
 
     //글저장
     @Transactional
-    public DetailPostDto create(PostRequestDto requestDto) {
-        Post post = new Post(requestDto);
+    public DetailPostDto create(PostRequestDto requestDto, String nickName) throws IllegalAccessException {
+        Optional<Member> mem = memberRepository.findByNickName(nickName);
+       if(!mem.isPresent())
+           throw new IllegalAccessException("사용자 정보가 없습니다!");
+        Post post = new Post(requestDto, mem.get());
         postRepository.save(post);
         return new DetailPostDto(post);
     }
 
     //글삭제
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, String nickName) throws IllegalAccessException {
+        Optional<Member> mem = memberRepository.findByNickName(nickName);
+        if(!mem.isPresent())
+            throw new IllegalAccessException("사용자 정보가 없습니다!");
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalAccessException("해당 글이 존재하지 않습니다."));
+        if(!post.getMember().getNickName().equals(mem.get().getNickName()))
+            throw new IllegalAccessException("작성자만 삭제할 수 있습니다.");
         postRepository.deleteById(id);
     }
 
@@ -57,19 +73,13 @@ public class PostService {
             PostListDto listDto = PostListDto.builder()
                     .id(post.getId())
                     .title(post.getTitle())
-                    .author(post.getAuthor())
+                    .author(post.getMember().getNickName())
                     .createAt(post.getCreateAt())
                     .modifiedAt(post.getModifiedAt())
                     .build();
             plist.add(listDto);
         }
         return plist;
-    }
-
-    //비밀번호 확인
-    public Boolean chkPassword(Long id, PasswordDto requestDto) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("아이디가 존재하지 않습니다."));
-        return post.getPassword().equals(requestDto.getPassword());
     }
 
 }
