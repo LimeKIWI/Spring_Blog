@@ -1,5 +1,7 @@
 package com.blog.hw3.security.provider;
 
+import com.blog.hw3.entity.RefreshToken;
+import com.blog.hw3.repository.RefreshTokenRepositroy;
 import com.blog.hw3.security.UserDetailServiceImp;
 import com.blog.hw3.security.dto.TokenDto;
 import io.jsonwebtoken.*;
@@ -29,9 +31,12 @@ public class JwtProvider {
 
     private final UserDetailServiceImp userDetailServiceImp;
 
-    public JwtProvider(UserDetailServiceImp userDetailServiceImp) {
+    private final RefreshTokenRepositroy refreshTokenRepositroy;
+
+    public JwtProvider(UserDetailServiceImp userDetailServiceImp, RefreshTokenRepositroy refreshTokenRepositroy) {
         this.key = Keys.hmacShaKeyFor(SECRET.getBytes());
         this.userDetailServiceImp = userDetailServiceImp;
+        this.refreshTokenRepositroy = refreshTokenRepositroy;
     }
 
     // 토큰만들기
@@ -86,6 +91,14 @@ public class JwtProvider {
             log.info("JWT 토큰이 잘못되었습니다.");
         }
         return false;
+    }
+
+    public void validateRefreshToken(String token, String key) {
+        RefreshToken refreshToken = refreshTokenRepositroy.findByKey(key)
+                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+        if (!refreshToken.getValue().equals(token)) {
+            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+        }
     }
 
     // 헤더에서 토큰을 가져와 앞7자리 "bearer "를 때낸 뒤 토큰값을 반환

@@ -3,8 +3,10 @@ package com.blog.hw3.service;
 import com.blog.hw3.dto.post.DetailPostDto;
 import com.blog.hw3.dto.post.PostListDto;
 import com.blog.hw3.dto.post.PostRequestDto;
+import com.blog.hw3.entity.Comment;
 import com.blog.hw3.entity.Member;
 import com.blog.hw3.entity.Post;
+import com.blog.hw3.repository.CommentRepository;
 import com.blog.hw3.repository.MemberRepository;
 import com.blog.hw3.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
+    
 
     private Member getMember(String nickName) throws IllegalAccessException {
         Optional<Member> mem = memberRepository.findByNickName(nickName);
@@ -58,6 +62,10 @@ public class PostService {
         if(!post.getMember().getNickName().equals(member.getNickName()))
             throw new IllegalAccessException("작성자만 삭제할 수 있습니다.");
         postRepository.deleteById(id);
+        List<Comment> list = commentRepository.findAllByPostId(id);
+        for(Comment comment : list) {
+            commentRepository.deleteById(comment.getId());
+        }
     }
 
     //글상세보기

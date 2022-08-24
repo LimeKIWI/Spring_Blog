@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -82,20 +81,19 @@ public class CommentService {
 
     // 댓글 목록 조회
     public List<CommentResponseDto> getCommentList(Long id) {
-        List<Comment> list = commentRepository.findAllByOrderByCreateAtDesc();
+        List<Comment> list = commentRepository.findAllByPostId(id);
         List<CommentResponseDto> clist = new ArrayList<>();
-        for(Comment c : list) {
-            if (Objects.equals(c.getPostId(), id)) {
-                CommentResponseDto commentDto = CommentResponseDto.builder()
-                        .id(c.getId())
-                        .author(c.getMember().getNickName())
-                        .content(c.getContent())
-                        .createAt(c.getCreateAt())
-                        .modifiedAt(c.getModifiedAt())
-                        .build();
-                clist.add(commentDto);
+            for (Comment c : list) {
+                    CommentResponseDto commentDto = CommentResponseDto.builder()
+                            .id(c.getId())
+                            .author(c.getMember().getNickName())
+                            .content(c.getContent())
+                            .createAt(c.getCreateAt())
+                            .modifiedAt(c.getModifiedAt())
+                            .build();
+                    clist.add(commentDto);
             }
-        }
+
         return clist;
     }
 }
