@@ -1,7 +1,7 @@
 package com.blog.hw3.security;
 
-import com.blog.hw3.entity.Users;
-import com.blog.hw3.repository.UserRepository;
+import com.blog.hw3.entity.Member;
+import com.blog.hw3.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,14 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailServiceImp implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Users user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("닉네임을 찾을 수 없습니다."+username));
-        // return new UserDetailImp(user);
-        Users user = userRepository.findByUsername(username).orElseThrow( ()-> new UsernameNotFoundException("닉네임을 찾을 수 없습니다."+username));
-
+        Member user = memberRepository.findByNickName(username).orElseThrow( ()-> new UsernameNotFoundException("닉네임을 찾을 수 없습니다."+username));
         return new UserDetailImp(user);
     }
 }
