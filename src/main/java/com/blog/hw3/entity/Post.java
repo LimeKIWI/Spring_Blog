@@ -1,6 +1,6 @@
 package com.blog.hw3.entity;
 
-import com.blog.hw3.dto.PostRequestDto;
+import com.blog.hw3.dto.post.PostRequestDto;
 import com.blog.hw3.utils.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,26 +20,21 @@ public class Post extends Timestamped {
     private String title;       // 게시물 이름
 
     @Column(nullable = false)
-    private String author;      // 게시물 작성자이름
-
-    @Column(nullable = false)
     private String content;     // 게시물 내용
 
-    @Column(nullable = false)
-    private String password;    // 비밀번호
+    @ManyToOne
+    @JoinColumn (nullable = false)
+    private Member member;
 
-    public Post(PostRequestDto requestDto) {
+    public Post(PostRequestDto requestDto, Member member) {
         this.title = requestDto.getTitle();
-        this.author = requestDto.getAuthor();
         this.content = requestDto.getContent();
-        this.password = requestDto.getPassword();
+        this.member = member;
     }
 
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.author = requestDto.getAuthor();
         this.content = requestDto.getContent();
-        this.password = requestDto.getPassword();
     }
 
 }

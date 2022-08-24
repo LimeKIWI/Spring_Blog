@@ -21,6 +21,7 @@ public class Member {
     @Column (nullable = false)
     private String password;
 
+
     public Member(SigninRequestDto signinRequestDto) {
         this.nickName = signinRequestDto.getNickName();
         this.password = signinRequestDto.getPassword();

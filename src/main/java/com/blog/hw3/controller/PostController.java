@@ -1,11 +1,12 @@
 package com.blog.hw3.controller;
 
-import com.blog.hw3.dto.DetailPostDto;
-import com.blog.hw3.dto.PasswordDto;
-import com.blog.hw3.dto.PostListDto;
-import com.blog.hw3.dto.PostRequestDto;
+import com.blog.hw3.dto.post.DetailPostDto;
+import com.blog.hw3.dto.post.PostListDto;
+import com.blog.hw3.dto.post.PostRequestDto;
+import com.blog.hw3.security.UserDetailImp;
 import com.blog.hw3.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,26 +19,20 @@ public class PostController {
 
     // 글 작성
     @PostMapping("/api/auth/posts")
-    public DetailPostDto createPost(@RequestBody PostRequestDto requestDto) {
-        return postService.create(requestDto);
-    }
-
-    // 비밀번호 확인
-    @PostMapping("/api/auth/{id}")
-    public boolean isValidPassword(@PathVariable Long id, @RequestBody PasswordDto requestDto) {
-        return postService.chkPassword(id, requestDto);
+    public DetailPostDto createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException {
+        return postService.create(requestDto, userDetail.getUsername());
     }
 
     // 글 수정
     @PutMapping("/api/auth/posts/{id}")
-    public DetailPostDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
-        return postService.update(id, requestDto);
+    public DetailPostDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException {
+        return postService.update(id, requestDto, userDetail.getUsername());
     }
 
     // 글 삭제
     @DeleteMapping("/api/auth/posts/{id}")
-    public Long deletePost(@PathVariable Long id) {
-        postService.delete(id);
+    public Long deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException {
+        postService.delete(id, userDetail.getUsername());
         return id;
     }
 

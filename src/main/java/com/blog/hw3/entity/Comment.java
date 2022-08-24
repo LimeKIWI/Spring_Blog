@@ -1,6 +1,6 @@
 package com.blog.hw3.entity;
 
-import com.blog.hw3.dto.CommentDto;
+import com.blog.hw3.dto.comment.CommentDto;
 import com.blog.hw3.utils.Timestamped;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,5 @@
 package com.blog.hw3.controller;
 
-import com.blog.hw3.dto.CommentDto;
 import com.blog.hw3.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

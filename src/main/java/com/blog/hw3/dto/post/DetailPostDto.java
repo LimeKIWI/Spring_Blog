@@ -1,4 +1,4 @@
-package com.blog.hw3.dto;
+package com.blog.hw3.dto.post;
 
 
 import com.blog.hw3.entity.Post;
@@ -19,7 +19,7 @@ public class DetailPostDto {
     public DetailPostDto (Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
-        this.author = post.getAuthor();
+        this.author = post.getMember().getNickName();
         this.content = post.getContent();
         this.createAt = post.getCreateAt();
         this.modifiedAt = post.getModifiedAt();
