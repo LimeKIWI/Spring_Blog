@@ -18,17 +18,21 @@ public class Comment extends Timestamped {
 
     @ManyToOne
     @JoinColumn (nullable = false)
-    private Post post;    // 댓글이 달린 게시글 id
+    private Member member;  // 댓글 작성자
 
     @Column (nullable = false)
-    private String author;
+    private Long postId;    // 댓글이 달린 게시글 id
 
     @Column (nullable = false)
     private String content;
 
+    public Comment(CommentDto commentDto, Member member) {
+        this.postId = commentDto.getPostId();
+        this.content = commentDto.getContent();
+        this.member = member;
+    }
+
     public void update (CommentDto commentDto) {
-        this.post = commentDto.getPost();
-        this.author = commentDto.getAuthor();
         this.content = commentDto.getContent();
     }
 }
