@@ -47,7 +47,7 @@ public class MemberService {
                 .build();
         Member user = new Member(dto);
         memberRepository.save(user);
-        return user.getNickName();
+        return user.getNickName()+" 가입완료!";
     }
 
     //로그인
@@ -74,6 +74,6 @@ public class MemberService {
         response.addHeader("Access-Token", tokenDto.getGrantType()+" "+tokenDto.getAccessToken());
         response.addHeader("Refresh-Token", tokenDto.getRefreshToken());
 
-        return authentication.getName();
+        return authentication.getName()+" 로그인 완료!";
     }
 }

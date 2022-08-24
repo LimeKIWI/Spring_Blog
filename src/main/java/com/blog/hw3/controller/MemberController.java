@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("api/member/signup")
-    public String signup(@RequestBody SignupRequestDto signupRequestDto) throws IllegalAccessException {
+    public String signup(@RequestBody @Valid SignupRequestDto signupRequestDto) throws IllegalAccessException {
         return memberService.registerUser(signupRequestDto);
     }
 
