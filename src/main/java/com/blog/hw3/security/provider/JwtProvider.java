@@ -83,21 +83,24 @@ public class JwtProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
+            throw new IllegalArgumentException("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
             log.info("만료된 JWT 토큰입니다.");
+            throw new IllegalArgumentException("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
             log.info("지원되지 않는 JWT 토큰입니다.");
+            throw new IllegalArgumentException("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
+            throw new IllegalArgumentException("JWT 토큰이 잘못되었습니다.");
         }
-        return false;
     }
 
     public void validateRefreshToken(String token, String key) {
         RefreshToken refreshToken = refreshTokenRepositroy.findByKey(key)
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("로그아웃 된 사용자입니다."));
         if (!refreshToken.getValue().equals(token)) {
-            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+            throw new IllegalArgumentException("토큰의 유저 정보가 일치하지 않습니다.");
         }
     }
 
