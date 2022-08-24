@@ -1,8 +1,6 @@
 # 나만의 블로그
 
 
-![](https://velog.velcdn.com/images/lries7897/post/3dd4e309-1b2f-405a-a67f-0f72e69ba4c3/image.png)
-
 [배포사이트 : http://3.39.195.61/](http://3.39.195.61/)
 
 ***
