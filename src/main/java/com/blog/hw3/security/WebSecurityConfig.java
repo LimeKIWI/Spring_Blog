@@ -1,4 +1,5 @@
 package com.blog.hw3.security;
+import com.blog.hw3.security.filter.ExceptionHandlerFilter;
 import com.blog.hw3.security.filter.JwtFilter;
 import com.blog.hw3.security.provider.JwtProvider;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .anyRequest().permitAll()
 
                 .and()
-                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(), JwtFilter.class);
 
     }
 }
