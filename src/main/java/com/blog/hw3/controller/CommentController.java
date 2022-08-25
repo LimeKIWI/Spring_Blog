@@ -18,19 +18,19 @@ public class CommentController {
 
     //댓글 쓰기
     @PostMapping("api/auth/comment")
-    public CommentResponseDto createComment(@RequestBody CommentDto commentDto, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException {
+    public CommentResponseDto createComment(@RequestBody CommentDto commentDto, @AuthenticationPrincipal UserDetailImp userDetail)  {
         return commentService.createComment(commentDto, userDetail.getUsername());
     }
 
     //댓글 수정
     @PutMapping("api/auth/comment/{id}")
-    public CommentResponseDto updateComment(@PathVariable Long id, @RequestBody CommentDto commentDto, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException  {
+    public CommentResponseDto updateComment(@PathVariable Long id, @RequestBody CommentDto commentDto, @AuthenticationPrincipal UserDetailImp userDetail)  {
         return commentService.updateComment(id, commentDto, userDetail.getUsername());
     }
 
     //댓글 삭제
     @DeleteMapping("api/auth/comment/{id}")
-    public Long deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailImp userDetail) throws IllegalAccessException  {
+    public Long deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailImp userDetail)  {
         return commentService.deleteComment(id, userDetail.getUsername());
     }
 
