@@ -11,11 +11,11 @@ import javax.validation.constraints.Pattern;
 public class SignupRequestDto {
 
     @NotBlank
-    @Pattern(regexp = "[a-zA-Z0-9]{4,12}", message = "닉네임양식을 확인해주세요!")
+    @Pattern(regexp = "[a-zA-Z0-9]{4,12}", message = "회원가입양식을 확인해주세요!")
     private String nickName;
 
     @NotBlank
-    @Pattern(regexp = "[a-z0-9]{4,32}", message = "비밀번호양식을 확인해주세요!")
+    @Pattern(regexp = "[a-z0-9]{4,32}", message = "회원가입양식을 확인해주세요!")
     private String password;
 
     @NotBlank
